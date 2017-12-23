@@ -1,0 +1,26 @@
+<% if users.any? %>
+ <ul class="media-list">
+   <% users.each do |user| %>
+     <li class="media">
+       <div class="media-left">
+         
+         <% if user.account_image? %>
+           <%= image_tag user.account_image.thumb.url %>
+         <% else %>
+           <%= image_tag '/noimage.jpg' %>
+         <% end %>
+         
+       </div>
+       <div class="media-body">
+         <div>
+           <%= user.name %>
+         </div>
+         <div>
+           <p><%= link_to 'プロフィール', user_path(user) %></p>
+         </div>
+       </div>
+     </li>
+   <% end %>
+ </ul>
+ <%= paginate users%>
+<% end %>

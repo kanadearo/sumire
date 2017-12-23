@@ -1,0 +1,48 @@
+<ul class="media-list">
+    <% posts.each do |post| %>
+      <% user = post.user %>
+      <li class="media">
+        <div class="media-left">
+          <% if user.account_image? %>
+            <%= image_tag user.account_image.thumb.url %>
+          <% else %>
+            <%= image_tag '/noimage.jpg' %>
+          <% end %>
+        </div>
+        <div class="media-body">
+          <div class="media-heading">
+            <%= link_to user.name, user_path(user) %>
+          </div>
+          <div>
+            <div class="myphoto">
+              <div>
+                <% if post.photo? %>
+                  <%= image_tag post.photo.url %>
+                <% else %>
+                  <%= image_tag '/noimage.jpg'  %>
+                <% end %>
+              </div>
+            </div>
+            <p><%= post.title %></p>
+            <p><%= post.caption %></p>
+            <p><%= post.used_camera%></p>
+            <p><%= link_to '詳細', post_path(post)%></p>
+          </div>
+          <div>
+            <% if current_user.favoriting?(post) %>
+              <%= form_for(current_user.favorites.find_by(post_id: post.id), html: { method: :delete }) do |f| %>
+                <%= hidden_field_tag :post_id, post.id %>
+                <%= f.submit 'Unfavorite', class: 'btn btn-danger btn-xs'%>
+              <% end %>
+            <% else %>
+              <%= form_for(current_user.favorites.build) do |f| %>
+                <%= hidden_field_tag :post_id, post.id %>
+                <%= f.submit 'Favorite', class: 'btn btn-primary btn-xs'%>
+              <% end %>
+            <% end %>
+          </div>          
+        </div>
+      </li>
+    <% end %>
+    <%= paginate posts %>
+</ul>

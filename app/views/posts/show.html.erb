@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-xs-6 col-xs-offset-3">
+    <ul class="media-list">
+          <li class="media">
+            <div class="media-left">
+              <% if @user.account_image? %>
+                <%= image_tag @user.account_image.thumb.url %>
+              <% else %>
+                <%= image_tag '/noimage.jpg'%>
+              <% end %>
+            </div>
+            <div class="media-body">
+              <div class="media-heading">
+                <%= link_to @user.name, user_path(@user) %>
+              </div>
+              <div>
+                <div class="myphoto">
+                  <% if @post.photo? %>
+                    <%= image_tag @post.photo.url %>
+                  <% else %>
+                    <%= image_tag '/noimage.jpg' %>
+                  <% end %>
+                </div>
+                <p><%= @post.title %></p>
+                <p><%= @post.caption %></p>
+                <p><%= @post.used_camera%></p>
+                <div>
+                  <% if current_user.favoriting?(@post) %>
+                    <%= form_for(current_user.favorites.find_by(post_id: @post.id), html: { method: :delete }) do |f| %>
+                      <%= hidden_field_tag :post_id, @post.id %>
+                      <%= f.submit 'Unfavorite', class: 'btn btn-danger btn-xs'%>
+                    <% end %>
+                  <% else %>
+                    <%= form_for(current_user.favorites.build) do |f| %>
+                      <%= hidden_field_tag :post_id, @post.id %>
+                      <%= f.submit 'Favorite', class: 'btn btn-primary btn-xs'%>
+                    <% end %>
+                  <% end %>
+                </div>          
+                <% if @user == current_user %>
+                  <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">･･･ </a>
+                    <ul class="dropdown-menu ">
+                      <li><%= link_to 'Edit', edit_post_path(@post) %></li>
+                      <li><%= link_to 'Delete', @post, method: :delete, data: { confirm: '本当に削除してもよろしいですか？' } %></li>
+                    </ul>
+                  </li>
+                <% end %>
+              </div>
+            </div>
+          </li>
+    </ul>

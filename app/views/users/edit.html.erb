@@ -1,0 +1,46 @@
+<div class="text-center">
+  <h1>プロフィール編集</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 ">
+    
+  <%= form_for(@user) do |f| %>
+
+    <div class="form-group">
+      <%= f.label :header_image, 'Header' %>
+      <%= f.file_field :header_image %>
+      <%= f.hidden_field :header_image_cache %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :account_image, 'Account' %>
+      <%= f.file_field :account_image %>
+      <%= f.hidden_field :account_image_cache %>
+    </div>
+      
+    <div class="form-group">
+      <%= f.label :name, 'Name' %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :profile, 'Profile' %>
+      <%= f.text_field :profile, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :use_camera, 'Use camera' %>
+      <%= f.text_field :use_camera, class: 'form-control' %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :url, 'Url' %>
+      <%= f.text_field :url, class: 'form-control' %>
+    </div>
+    
+    <%= f.submit '保存', class: 'btn btn-primary btn-block' %>
+    
+  <% end %>
+  </div>
+</div>
